@@ -33,6 +33,8 @@ export const ExpenseProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : initialCategories;
   });
 
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses));
   }, [expenses]);
@@ -119,7 +121,9 @@ export const ExpenseProvider = ({ children }) => {
     monthlyTotal,
     monthlyExpenses,
     categories: categoriesWithIcons,
-    addCategory
+    addCategory,
+    sidebarOpen,
+    setSidebarOpen
   };
 
   return (

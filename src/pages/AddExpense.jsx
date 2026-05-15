@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { useNavigate } from 'react-router-dom';
+import { useNavigate, useLocation } from 'react-router-dom';
 import { motion } from 'framer-motion';
 import { AnimatePresence } from 'framer-motion';
 import { MdArrowBack, MdSave, MdClear, MdAdd } from 'react-icons/md';
@@ -9,14 +9,17 @@ import Navbar from '../components/Navbar';
 
 const ExpenseForm = () => {
   const navigate = useNavigate();
+  const location = useLocation();
   const { addExpense, categories, addCategory } = useExpenses();
   const { addToast } = useToast();
+  
+  const initialDate = location.state?.defaultDate || new Date().toISOString().split('T')[0];
   
   const [formData, setFormData] = useState({
     title: '',
     amount: '',
     category: 'other',
-    date: new Date().toISOString().split('T')[0],
+    date: initialDate,
     notes: ''
   });
 
