@@ -4,11 +4,10 @@ import MonthlySpendingChart from '../charts/MonthlySpendingChart';
 import CategoryPieChart from '../charts/CategoryPieChart';
 import WeeklyBarChart from '../charts/WeeklyBarChart';
 import { useExpenses } from '../context/ExpenseContext';
-import { categories } from '../data/dummyData';
 import { motion } from 'framer-motion';
 
 const AnalyticsPage = () => {
-  const { expenses } = useExpenses();
+  const { expenses, categories } = useExpenses();
 
   const categoryTotals = categories.map(cat => {
     const total = expenses

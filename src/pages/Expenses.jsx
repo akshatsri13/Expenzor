@@ -10,13 +10,12 @@ import {
 } from 'react-icons/md';
 import { useExpenses } from '../context/ExpenseContext';
 import { useToast } from '../context/ToastContext';
-import { categories } from '../data/dummyData';
 import { exportToCSV } from '../utils/csvExporter';
 import Navbar from '../components/Navbar';
 import { format } from 'date-fns';
 
 const ExpensesPage = () => {
-  const { expenses, deleteExpense } = useExpenses();
+  const { expenses, deleteExpense, categories } = useExpenses();
   const { addToast } = useToast();
   const [searchTerm, setSearchTerm] = useState('');
   const [filterCategory, setFilterCategory] = useState('all');

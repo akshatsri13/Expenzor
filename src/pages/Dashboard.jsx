@@ -6,12 +6,11 @@ import BudgetProgress from '../components/BudgetProgress';
 import MonthlySpendingChart from '../charts/MonthlySpendingChart';
 import CategoryPieChart from '../charts/CategoryPieChart';
 import WeeklyBarChart from '../charts/WeeklyBarChart';
-import { categories } from '../data/dummyData';
 import { format } from 'date-fns';
 import { MdTrendingUp, MdTrendingDown, MdAccountBalanceWallet } from 'react-icons/md';
 
 const Dashboard = () => {
-  const { expenses, monthlyTotal, totalExpenses } = useExpenses();
+  const { expenses, monthlyTotal, totalExpenses, categories } = useExpenses();
   const recentExpenses = expenses.slice(0, 5);
 
   const stats = [
