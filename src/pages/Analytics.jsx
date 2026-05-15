@@ -51,7 +51,7 @@ const AnalyticsPage = () => {
                       <cat.icon style={{ color: cat.color }} />
                       <span className="text-sm font-medium text-slate-600 dark:text-slate-300">{cat.name}</span>
                     </div>
-                    <span className="text-sm font-bold text-slate-800 dark:text-slate-100">${cat.total.toFixed(2)}</span>
+                    <span className="text-sm font-bold text-slate-800 dark:text-slate-100">₹{cat.total.toFixed(2)}</span>
                   </div>
                   <div className="w-full h-2 bg-slate-100 dark:bg-slate-800 rounded-full overflow-hidden">
                     <div 
@@ -73,7 +73,7 @@ const AnalyticsPage = () => {
             <p className="text-primary-100 text-sm font-medium mb-1">Top Category</p>
             <h4 className="text-2xl font-bold mb-4">{topCategory?.name || 'N/A'}</h4>
             <div className="flex items-center space-x-2">
-              <span className="text-3xl font-bold">${topCategory?.total.toFixed(2) || '0.00'}</span>
+              <span className="text-3xl font-bold">₹{topCategory?.total.toFixed(2) || '0.00'}</span>
             </div>
           </div>
           
@@ -81,7 +81,7 @@ const AnalyticsPage = () => {
             <p className="text-secondary-100 text-sm font-medium mb-1">Avg. Daily Spending</p>
             <h4 className="text-2xl font-bold mb-4">Last 30 Days</h4>
             <span className="text-3xl font-bold">
-              ${(expenses.reduce((a, b) => a + b.amount, 0) / 30).toFixed(2)}
+              ₹{(expenses.reduce((a, b) => a + b.amount, 0) / 30).toFixed(2)}
             </span>
           </div>
 

@@ -121,7 +121,7 @@ const ExpensesPage = () => {
                           {format(new Date(exp.date), 'MMM dd, yyyy')}
                         </td>
                         <td className="px-6 py-4 font-bold text-slate-800 dark:text-slate-100">
-                          ${exp.amount.toFixed(2)}
+                          ₹{exp.amount.toFixed(2)}
                         </td>
                         <td className="px-6 py-4 text-right">
                           <div className="flex items-center justify-end space-x-2">

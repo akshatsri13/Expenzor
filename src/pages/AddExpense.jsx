@@ -65,7 +65,7 @@ const ExpenseForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Amount ($)</label>
+                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Amount (₹)</label>
                 <input
                   required
                   type="number"
