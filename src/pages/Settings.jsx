@@ -29,7 +29,7 @@ const SettingsPage = () => {
           
           <div className="space-y-6">
             <div>
-              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Monthly Budget Limit ($)</label>
+              <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Monthly Budget Limit (₹)</label>
               <div className="flex space-x-4">
                 <input
                   type="number"

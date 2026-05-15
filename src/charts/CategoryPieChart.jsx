@@ -8,10 +8,9 @@ import {
   Legend 
 } from 'recharts';
 import { useExpenses } from '../context/ExpenseContext';
-import { categories } from '../data/dummyData';
 
 const CategoryPieChart = () => {
-  const { expenses } = useExpenses();
+  const { expenses, categories } = useExpenses();
 
   const data = categories.map(cat => {
     const total = expenses

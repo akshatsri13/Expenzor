@@ -45,7 +45,7 @@ const WeeklyBarChart = () => {
             axisLine={false} 
             tickLine={false} 
             tick={{ fill: '#94a3b8', fontSize: 12 }}
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `₹${value}`}
           />
           <Tooltip 
             cursor={{ fill: 'rgba(226, 232, 240, 0.4)' }}

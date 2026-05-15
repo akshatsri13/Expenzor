@@ -9,15 +9,26 @@ import {
   MdAttachMoney 
 } from 'react-icons/md';
 
+export const iconMap = {
+  MdFastfood, 
+  MdDirectionsCar, 
+  MdShoppingBag, 
+  MdHome, 
+  MdMovie, 
+  MdMedicalServices, 
+  MdSchool, 
+  MdAttachMoney 
+};
+
 export const categories = [
-  { id: 'food', name: 'Food & Dining', icon: MdFastfood, color: '#f59e0b' },
-  { id: 'transport', name: 'Transport', icon: MdDirectionsCar, color: '#3b82f6' },
-  { id: 'shopping', name: 'Shopping', icon: MdShoppingBag, color: '#ec4899' },
-  { id: 'housing', name: 'Housing', icon: MdHome, color: '#10b981' },
-  { id: 'entertainment', name: 'Entertainment', icon: MdMovie, color: '#8b5cf6' },
-  { id: 'health', name: 'Health', icon: MdMedicalServices, color: '#ef4444' },
-  { id: 'education', name: 'Education', icon: MdSchool, color: '#6366f1' },
-  { id: 'other', name: 'Other', icon: MdAttachMoney, color: '#64748b' },
+  { id: 'food', name: 'Food & Dining', icon: 'MdFastfood', color: '#f59e0b' },
+  { id: 'transport', name: 'Transport', icon: 'MdDirectionsCar', color: '#3b82f6' },
+  { id: 'shopping', name: 'Shopping', icon: 'MdShoppingBag', color: '#ec4899' },
+  { id: 'housing', name: 'Housing', icon: 'MdHome', color: '#10b981' },
+  { id: 'entertainment', name: 'Entertainment', icon: 'MdMovie', color: '#8b5cf6' },
+  { id: 'health', name: 'Health', icon: 'MdMedicalServices', color: '#ef4444' },
+  { id: 'education', name: 'Education', icon: 'MdSchool', color: '#6366f1' },
+  { id: 'other', name: 'Other', icon: 'MdAttachMoney', color: '#64748b' },
 ];
 
 export const initialExpenses = [

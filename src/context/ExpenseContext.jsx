@@ -1,5 +1,6 @@
 import React, { createContext, useContext, useState, useEffect } from 'react';
-import { initialExpenses } from '../data/dummyData';
+import { initialExpenses, categories as initialCategories, iconMap } from '../data/dummyData';
+import { MdAttachMoney } from 'react-icons/md';
 
 const ExpenseContext = createContext();
 
@@ -27,6 +28,13 @@ export const ExpenseProvider = ({ children }) => {
     return saved ? JSON.parse(saved) : false;
   });
 
+  const [categories, setCategories] = useState(() => {
+    const saved = localStorage.getItem('categories');
+    return saved ? JSON.parse(saved) : initialCategories;
+  });
+
+  const [sidebarOpen, setSidebarOpen] = useState(false);
+
   useEffect(() => {
     localStorage.setItem('expenses', JSON.stringify(expenses));
   }, [expenses]);
@@ -43,6 +51,10 @@ export const ExpenseProvider = ({ children }) => {
       document.documentElement.classList.remove('dark');
     }
   }, [darkMode]);
+
+  useEffect(() => {
+    localStorage.setItem('categories', JSON.stringify(categories));
+  }, [categories]);
 
   const addExpense = (expense) => {
     const newExpense = {
@@ -63,6 +75,26 @@ export const ExpenseProvider = ({ children }) => {
       exp.id === updatedExpense.id ? { ...updatedExpense, amount: parseFloat(updatedExpense.amount) } : exp
     ));
   };
+
+  const addCategory = (name) => {
+    const newCat = {
+      id: `custom-${Date.now()}`,
+      name: name,
+      icon: 'MdAttachMoney',
+      color: '#64748b' // Default slate color
+    };
+    setCategories(prev => {
+      // Don't add if already exists
+      if (prev.find(c => c.name.toLowerCase() === name.toLowerCase())) return prev;
+      return [...prev, newCat];
+    });
+    return newCat;
+  };
+
+  const categoriesWithIcons = categories.map(cat => ({
+    ...cat,
+    icon: iconMap[cat.icon] || MdAttachMoney
+  }));
 
   const totalExpenses = expenses.reduce((sum, exp) => sum + exp.amount, 0);
   
@@ -88,6 +120,10 @@ export const ExpenseProvider = ({ children }) => {
     totalExpenses,
     monthlyTotal,
     monthlyExpenses,
+    categories: categoriesWithIcons,
+    addCategory,
+    sidebarOpen,
+    setSidebarOpen
   };
 
   return (

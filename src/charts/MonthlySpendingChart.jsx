@@ -56,7 +56,7 @@ const MonthlySpendingChart = () => {
             axisLine={false} 
             tickLine={false} 
             tick={{ fill: '#94a3b8', fontSize: 12 }}
-            tickFormatter={(value) => `$${value}`}
+            tickFormatter={(value) => `₹${value}`}
           />
           <Tooltip 
             contentStyle={{ 
