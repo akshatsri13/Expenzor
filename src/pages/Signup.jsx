@@ -44,7 +44,7 @@ const Signup = () => {
     
     setLoading(true);
     try {
-      signup(name, email, password);
+      await signup(name, email, password);
       addToast('Account created successfully!', 'success');
       setIsSuccess(true);
       setTimeout(() => {

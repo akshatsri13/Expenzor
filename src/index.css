@@ -4,7 +4,8 @@
 
 @layer base {
   body {
-    @apply bg-slate-50 text-slate-900 transition-colors duration-300;
+    background-color: #F5F7FA;
+    @apply text-slate-900 transition-colors duration-300 antialiased;
   }
   
   .dark body {
@@ -14,23 +15,23 @@
 
 @layer components {
   .glass {
-    @apply bg-white/70 backdrop-blur-md border border-white/20;
+    @apply bg-white border border-slate-100;
   }
   
   .dark .glass {
-    @apply bg-slate-900/70 backdrop-blur-md border border-slate-800/50;
+    @apply bg-slate-900 backdrop-blur-md border border-slate-800/60;
   }
   
   .card {
-    @apply glass rounded-2xl shadow-premium p-6 transition-all duration-300 hover:shadow-premium-hover;
+    @apply glass rounded-[20px] shadow-premium p-6 transition-all duration-300 hover:shadow-premium-hover hover:-translate-y-[2px];
   }
   
   .btn-primary {
-    @apply px-4 py-2 bg-primary-600 text-white rounded-xl font-medium transition-all duration-300 hover:bg-primary-700 active:scale-95 shadow-lg shadow-primary-500/20;
+    @apply px-5 py-2.5 bg-gradient-to-r from-primary-500 to-secondary-500 text-white rounded-xl font-semibold transition-all duration-300 hover:from-primary-600 hover:to-secondary-600 hover:shadow-md hover:shadow-primary-500/10 active:scale-95;
   }
   
   .btn-secondary {
-    @apply px-4 py-2 bg-white text-slate-700 border border-slate-200 rounded-xl font-medium transition-all duration-300 hover:bg-slate-50 active:scale-95 shadow-sm;
+    @apply px-5 py-2.5 bg-white text-slate-600 border border-slate-200/80 rounded-xl font-semibold transition-all duration-300 hover:bg-slate-50 hover:text-slate-800 active:scale-95 shadow-sm;
   }
   
   .dark .btn-secondary {

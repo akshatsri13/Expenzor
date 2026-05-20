@@ -45,9 +45,9 @@ const LandingNavbar = () => {
         </div>
 
         <div className="flex items-center space-x-6">
-          <button className="text-slate-400 hover:text-white transition-colors hidden sm:block">
+          {/* <button className="text-slate-400 hover:text-white transition-colors hidden sm:block">
             <MdNotificationsNone className="text-2xl" />
-          </button>
+          </button> */}
           
           {user ? (
             <button

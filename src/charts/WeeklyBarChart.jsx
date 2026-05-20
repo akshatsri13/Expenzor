@@ -31,37 +31,57 @@ const WeeklyBarChart = () => {
 
   return (
     <div className="card h-80">
-      <h3 className="text-lg font-bold mb-4 text-slate-800 dark:text-slate-100">Weekly Activity</h3>
-      <ResponsiveContainer width="100%" height="100%">
-        <BarChart data={data}>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">Weekly Cycle</h3>
+          <p className="text-xs text-slate-400 dark:text-slate-500">Spending patterns per weekday</p>
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height="80%">
+        <BarChart data={data} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
+          <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#f1f5f9" />
           <XAxis 
             dataKey="day" 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            tick={{ fill: '#94a3b8', fontSize: 11, fontFamily: 'Inter' }}
           />
           <YAxis 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            tick={{ fill: '#94a3b8', fontSize: 11, fontFamily: 'Inter' }}
             tickFormatter={(value) => `₹${value}`}
           />
           <Tooltip 
-            cursor={{ fill: 'rgba(226, 232, 240, 0.4)' }}
+            cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }}
             contentStyle={{ 
-              borderRadius: '12px', 
-              border: 'none', 
-              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' 
+              backgroundColor: 'rgba(255, 255, 255, 0.96)', 
+              borderRadius: '16px', 
+              border: '1px solid #f1f5f9', 
+              boxShadow: '0 12px 30px -4px rgba(17, 24, 39, 0.05)',
+              fontFamily: 'Inter',
+              fontSize: '13px'
             }}
+            formatter={(value) => [`₹${parseFloat(value).toFixed(2)}`, 'Spend']}
           />
-          <Bar dataKey="amount" radius={[6, 6, 0, 0]}>
-            {data.map((entry, index) => (
-              <Cell 
-                key={`cell-${index}`} 
-                fill={entry.amount > 100 ? '#f43f5e' : '#8b5cf6'} 
-              />
-            ))}
+          <Bar dataKey="amount" radius={[5, 5, 0, 0]} maxBarSize={28}>
+            {data.map((entry, index) => {
+              // High spend alert (e.g. > 1500 is orange, > 3000 is red, otherwise primary blue)
+              let barColor = '#3b82f6';
+              if (entry.amount > 3000) {
+                barColor = '#ef4444'; // Red alert
+              } else if (entry.amount > 1500) {
+                barColor = '#f97316'; // Orange warning
+              }
+              return (
+                <Cell 
+                  key={`cell-${index}`} 
+                  fill={barColor} 
+                  opacity={0.85}
+                  className="transition-all duration-300 hover:opacity-100"
+                />
+              );
+            })}
           </Bar>
         </BarChart>
       </ResponsiveContainer>

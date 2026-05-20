@@ -27,7 +27,7 @@ const ProtectedRoute = () => {
 // App Layout (Sidebar + Content)
 const AppLayout = () => {
   return (
-    <div className="flex h-screen bg-slate-50 dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
+    <div className="flex h-screen bg-[#F5F7FA] dark:bg-slate-950 transition-colors duration-300 overflow-hidden">
       <Sidebar />
       <motion.div
         initial={{ opacity: 0, filter: 'blur(10px)', scale: 0.98 }}

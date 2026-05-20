@@ -35,43 +35,51 @@ const MonthlySpendingChart = () => {
 
   return (
     <div className="card h-80">
-      <h3 className="text-lg font-bold mb-4 text-slate-800 dark:text-slate-100">Spending Trend</h3>
-      <ResponsiveContainer width="100%" height="100%">
-        <AreaChart data={chartData}>
+      <div className="flex items-center justify-between mb-6">
+        <div>
+          <h3 className="text-base font-bold text-slate-800 dark:text-slate-100">Spending Flow</h3>
+          <p className="text-xs text-slate-400 dark:text-slate-500">Daily transaction velocity (last 30 days)</p>
+        </div>
+      </div>
+      <ResponsiveContainer width="100%" height="80%">
+        <AreaChart data={chartData} margin={{ top: 10, right: 10, left: -20, bottom: 0 }}>
           <defs>
             <linearGradient id="colorAmount" x1="0" y1="0" x2="0" y2="1">
-              <stop offset="5%" stopColor="#0ea5e9" stopOpacity={0.3}/>
-              <stop offset="95%" stopColor="#0ea5e9" stopOpacity={0}/>
+              <stop offset="5%" stopColor="#3b82f6" stopOpacity={0.2}/>
+              <stop offset="95%" stopColor="#3b82f6" stopOpacity={0.01}/>
             </linearGradient>
           </defs>
-          <CartesianGrid strokeDasharray="3 3" vertical={false} stroke="#e2e8f0" />
+          <CartesianGrid strokeDasharray="4 4" vertical={false} stroke="#f1f5f9" />
           <XAxis 
             dataKey="date" 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
-            minTickGap={30}
+            tick={{ fill: '#94a3b8', fontSize: 11, fontFamily: 'Inter' }}
+            minTickGap={40}
           />
           <YAxis 
             axisLine={false} 
             tickLine={false} 
-            tick={{ fill: '#94a3b8', fontSize: 12 }}
+            tick={{ fill: '#94a3b8', fontSize: 11, fontFamily: 'Inter' }}
             tickFormatter={(value) => `₹${value}`}
           />
           <Tooltip 
             contentStyle={{ 
-              backgroundColor: 'rgba(255, 255, 255, 0.8)', 
-              borderRadius: '12px', 
-              border: 'none', 
-              boxShadow: '0 10px 15px -3px rgba(0, 0, 0, 0.1)' 
+              backgroundColor: 'rgba(255, 255, 255, 0.96)', 
+              borderRadius: '16px', 
+              border: '1px solid #f1f5f9', 
+              boxShadow: '0 12px 30px -4px rgba(17, 24, 39, 0.05)',
+              fontFamily: 'Inter',
+              fontSize: '13px'
             }}
-            itemStyle={{ color: '#0ea5e9', fontWeight: 'bold' }}
+            itemStyle={{ color: '#3b82f6', fontWeight: 'bold' }}
+            labelStyle={{ color: '#64748b', fontWeight: 'medium', marginBottom: '4px' }}
           />
           <Area 
             type="monotone" 
             dataKey="amount" 
-            stroke="#0ea5e9" 
-            strokeWidth={3}
+            stroke="#3b82f6" 
+            strokeWidth={2}
             fillOpacity={1} 
             fill="url(#colorAmount)" 
           />

@@ -33,7 +33,7 @@ const Login = () => {
     
     setLoading(true);
     try {
-      login(email, password);
+      await login(email, password);
       addToast('Logged in successfully!', 'success');
       setIsSuccess(true);
       setTimeout(() => {

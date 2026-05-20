@@ -54,10 +54,10 @@ const Sidebar = () => {
           closed: { x: "-100%" }
         }}
         transition={{ duration: 0.4, ease: [0.16, 1, 0.3, 1] }}
-        className="w-64 h-screen fixed left-0 top-0 glass border-r border-slate-200 dark:border-slate-800 z-[60] flex flex-col shadow-2xl md:shadow-none"
+        className="w-64 h-screen fixed left-0 top-0 bg-[#111827] border-r border-slate-800/80 z-[60] flex flex-col shadow-2xl md:shadow-none"
       >
         <div className="p-6 md:p-8 flex items-center justify-between">
-          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-600 to-accent-600 bg-clip-text text-transparent">
+          <h1 className="text-2xl font-bold bg-gradient-to-r from-primary-400 to-secondary-400 bg-clip-text text-transparent tracking-tight">
             Expenzor
           </h1>
           <button 
@@ -66,13 +66,13 @@ const Sidebar = () => {
               e.stopPropagation();
               setSidebarOpen(false);
             }}
-            className="p-2 md:hidden text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 rounded-lg transition-colors relative z-[70]"
+            className="p-2 md:hidden text-slate-400 hover:bg-white/5 rounded-lg transition-colors relative z-[70]"
           >
             <MdClose className="text-2xl" />
           </button>
         </div>
 
-        <nav className="flex-1 px-4 space-y-2 mt-4">
+        <nav className="flex-1 px-4 space-y-1.5 mt-4">
           {navItems.map((item) => (
             <NavLink
               key={item.name}
@@ -81,23 +81,23 @@ const Sidebar = () => {
               className={({ isActive }) => `
                 flex items-center px-4 py-3 rounded-xl transition-all duration-300
                 ${isActive 
-                  ? 'bg-primary-600 text-white shadow-lg shadow-primary-500/20' 
-                  : 'text-slate-500 hover:bg-slate-100 dark:hover:bg-slate-800 hover:text-slate-900 dark:hover:text-slate-100'}
+                  ? 'bg-gradient-to-r from-primary-500 to-secondary-500 text-white shadow-md shadow-primary-500/10' 
+                  : 'text-slate-400 hover:bg-white/5 hover:text-slate-100'}
               `}
             >
               <item.icon className="text-xl mr-3" />
-              <span className="font-medium">{item.name}</span>
+              <span className="font-semibold text-sm">{item.name}</span>
             </NavLink>
           ))}
         </nav>
 
-        <div className="p-4 border-t border-slate-200 dark:border-slate-800">
+        <div className="p-4 border-t border-slate-800/80">
           <NavLink
             to="/add"
             onClick={() => setSidebarOpen(false)}
-            className="flex items-center justify-center w-full py-4 bg-emerald-600 text-white rounded-2xl font-bold shadow-lg shadow-indigo-500/20 hover:bg-indigo-700 transition-all duration-300 active:scale-95"
+            className="flex items-center justify-center w-full py-3.5 bg-gradient-to-r from-primary-500 to-secondary-500 hover:from-primary-600 hover:to-secondary-600 text-white rounded-xl font-bold shadow-md shadow-primary-500/10 transition-all duration-300 active:scale-95 text-sm"
           >
-            <MdAddCircle className="text-2xl mr-2" />
+            <MdAddCircle className="text-xl mr-2" />
             <span>Add Expense</span>
           </NavLink>
         </div>
