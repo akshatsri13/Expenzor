@@ -1,8 +1,10 @@
 import React from 'react';
 import { motion } from 'framer-motion';
 import { User, Mail, Calendar, TrendingUp, TrendingDown, Wallet } from 'lucide-react';
+import { useExpenses } from '../../context/ExpenseContext';
 
 const ProfileHeader = ({ user, budget, monthlyTotal, expenses }) => {
+  const { currencySymbol } = useExpenses();
   const joinedDate = 'May 2026';
   const budgetUsed = budget > 0 ? ((monthlyTotal / budget) * 100).toFixed(0) : 0;
   const remaining = budget - monthlyTotal;
@@ -51,14 +53,14 @@ const ProfileHeader = ({ user, budget, monthlyTotal, expenses }) => {
               <p className="text-white/70 text-xs font-medium mb-0.5">Spent</p>
               <p className="text-white text-lg font-bold flex items-center gap-1">
                 <TrendingDown size={16} className="text-red-300" />
-                ₹{monthlyTotal.toLocaleString()}
+                {currencySymbol}{monthlyTotal.toLocaleString()}
               </p>
             </div>
             <div className="px-4 py-3 rounded-xl bg-white/15 backdrop-blur-md border border-white/20 min-w-[120px]">
               <p className="text-white/70 text-xs font-medium mb-0.5">Remaining</p>
               <p className="text-white text-lg font-bold flex items-center gap-1">
                 <Wallet size={16} className="text-emerald-300" />
-                ₹{remaining > 0 ? remaining.toLocaleString() : 0}
+                {currencySymbol}{remaining > 0 ? remaining.toLocaleString() : 0}
               </p>
             </div>
             <div className="px-4 py-3 rounded-xl bg-white/15 backdrop-blur-md border border-white/20 min-w-[120px]">

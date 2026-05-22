@@ -10,7 +10,7 @@ import {
 import { useExpenses } from '../context/ExpenseContext';
 
 const CategoryPieChart = () => {
-  const { expenses, categories } = useExpenses();
+  const { expenses, categories, currencySymbol } = useExpenses();
 
   const data = categories.map(cat => {
     const total = expenses
@@ -56,7 +56,7 @@ const CategoryPieChart = () => {
               fontFamily: 'Inter',
               fontSize: '13px'
             }}
-            formatter={(value) => [`₹${parseFloat(value).toFixed(2)}`, 'Spend']}
+            formatter={(value) => [`${currencySymbol}${parseFloat(value).toFixed(2)}`, 'Spend']}
           />
           <Legend 
             iconType="circle" 

@@ -12,7 +12,7 @@ import { format, subDays, startOfMonth, eachDayOfInterval } from 'date-fns';
 import { useExpenses } from '../context/ExpenseContext';
 
 const MonthlySpendingChart = () => {
-  const { expenses } = useExpenses();
+  const { expenses, currencySymbol } = useExpenses();
 
   // Process data for the last 30 days
   const today = new Date();
@@ -61,7 +61,7 @@ const MonthlySpendingChart = () => {
             axisLine={false} 
             tickLine={false} 
             tick={{ fill: '#94a3b8', fontSize: 11, fontFamily: 'Inter' }}
-            tickFormatter={(value) => `₹${value}`}
+            tickFormatter={(value) => `${currencySymbol}${value}`}
           />
           <Tooltip 
             contentStyle={{ 

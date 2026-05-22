@@ -10,21 +10,21 @@ import { format } from 'date-fns';
 import { MdTrendingUp, MdTrendingDown, MdAccountBalanceWallet } from 'react-icons/md';
 
 const Dashboard = () => {
-  const { expenses, monthlyTotal, totalExpenses, categories } = useExpenses();
+  const { expenses, monthlyTotal, totalExpenses, categories, currencySymbol } = useExpenses();
   const [showAllTransactions, setShowAllTransactions] = useState(false);
   const displayExpenses = showAllTransactions ? expenses : expenses.slice(0, 5);
 
   const stats = [
     { 
       label: 'Monthly Spending', 
-      value: `₹${monthlyTotal.toFixed(2)}`, 
+      value: `${currencySymbol}${monthlyTotal.toFixed(2)}`, 
       icon: MdTrendingUp, 
       color: 'text-primary-600',
       bg: 'bg-primary-50' 
     },
     { 
       label: 'Total Expenses', 
-      value: `₹${totalExpenses.toFixed(2)}`, 
+      value: `${currencySymbol}${totalExpenses.toFixed(2)}`, 
       icon: MdAccountBalanceWallet, 
       color: 'text-secondary-600',
       bg: 'bg-secondary-50' 
@@ -125,7 +125,7 @@ const Dashboard = () => {
                           <p className="text-xs text-slate-500">{format(new Date(exp.date), 'MMM dd, yyyy')}</p>
                         </div>
                       </div>
-                      <p className="font-bold text-slate-800 dark:text-slate-100">-₹{exp.amount.toFixed(2)}</p>
+                      <p className="font-bold text-slate-800 dark:text-slate-100">-{currencySymbol}{exp.amount.toFixed(2)}</p>
                     </div>
                   );
                 }) : (

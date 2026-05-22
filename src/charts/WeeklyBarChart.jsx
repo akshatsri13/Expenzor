@@ -13,7 +13,7 @@ import { format, startOfWeek, addDays, isSameDay } from 'date-fns';
 import { useExpenses } from '../context/ExpenseContext';
 
 const WeeklyBarChart = () => {
-  const { expenses } = useExpenses();
+  const { expenses, currencySymbol } = useExpenses();
 
   const startOfCurrWeek = startOfWeek(new Date(), { weekStartsOn: 1 });
   const weekDays = [...Array(7)].map((_, i) => addDays(startOfCurrWeek, i));
@@ -50,7 +50,7 @@ const WeeklyBarChart = () => {
             axisLine={false} 
             tickLine={false} 
             tick={{ fill: '#94a3b8', fontSize: 11, fontFamily: 'Inter' }}
-            tickFormatter={(value) => `₹${value}`}
+            tickFormatter={(value) => `${currencySymbol}${value}`}
           />
           <Tooltip 
             cursor={{ fill: 'rgba(241, 245, 249, 0.6)', radius: 8 }}
@@ -62,7 +62,7 @@ const WeeklyBarChart = () => {
               fontFamily: 'Inter',
               fontSize: '13px'
             }}
-            formatter={(value) => [`₹${parseFloat(value).toFixed(2)}`, 'Spend']}
+            formatter={(value) => [`${currencySymbol}${parseFloat(value).toFixed(2)}`, 'Spend']}
           />
           <Bar dataKey="amount" radius={[5, 5, 0, 0]} maxBarSize={28}>
             {data.map((entry, index) => {

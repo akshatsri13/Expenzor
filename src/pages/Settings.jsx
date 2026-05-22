@@ -34,7 +34,7 @@ const SectionCard = ({ icon, iconBg, title, children, delay = 0 }) => (
 );
 
 const SettingsPage = () => {
-  const { budget, setBudget, expenses, darkMode, setDarkMode, monthlyTotal } = useExpenses();
+  const { budget, setBudget, expenses, darkMode, setDarkMode, monthlyTotal, currency, setCurrency } = useExpenses();
   const { user, logout } = useAuth();
 
   const [tempBudget, setTempBudget] = useState(budget);
@@ -43,7 +43,6 @@ const SettingsPage = () => {
 
   // Preferences (local state for UI demo)
   const [notifications, setNotifications] = useState(true);
-  const [currency, setCurrency] = useState('INR');
   const [language, setLanguage] = useState('en');
   const [dashLayout, setDashLayout] = useState('grid');
   const [compactMode, setCompactMode] = useState(false);

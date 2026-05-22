@@ -10,7 +10,7 @@ import Navbar from '../components/Navbar';
 const ExpenseForm = () => {
   const navigate = useNavigate();
   const location = useLocation();
-  const { addExpense, categories, addCategory } = useExpenses();
+  const { addExpense, categories, addCategory, currencySymbol } = useExpenses();
   const { addToast } = useToast();
   
   const initialDate = location.state?.defaultDate || new Date().toISOString().split('T')[0];
@@ -82,7 +82,7 @@ const ExpenseForm = () => {
 
             <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
               <div>
-                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Amount (₹)</label>
+                <label className="block text-sm font-medium text-slate-500 dark:text-slate-400 mb-2">Amount ({currencySymbol})</label>
                 <input
                   required
                   type="number"

@@ -20,6 +20,15 @@ export const ExpenseProvider = ({ children }) => {
   const [expenses, setExpenses] = useState([]);
   const [budget, setBudget] = useState(2000);
   const [darkMode, setDarkMode] = useState(false);
+  const [currency, setCurrency] = useState('INR');
+
+  const currencyMap = {
+    INR: '₹',
+    USD: '$',
+    EUR: '€',
+    GBP: '£'
+  };
+  const currencySymbol = currencyMap[currency] || '₹';
   const [categories, setCategories] = useState(() => {
     const saved = localStorage.getItem('categories');
     return saved ? JSON.parse(saved) : initialCategories;
@@ -46,6 +55,7 @@ export const ExpenseProvider = ({ children }) => {
           const settingsData = await settingsRes.json();
           setBudget(settingsData.budget);
           setDarkMode(settingsData.dark_mode);
+          if (settingsData.currency) setCurrency(settingsData.currency);
         } else {
           throw new Error('Failed to fetch settings');
         }
@@ -61,6 +71,9 @@ export const ExpenseProvider = ({ children }) => {
 
         const savedDarkMode = localStorage.getItem('darkMode');
         setDarkMode(savedDarkMode ? JSON.parse(savedDarkMode) : false);
+
+        const savedCurrency = localStorage.getItem('currency');
+        if (savedCurrency) setCurrency(JSON.parse(savedCurrency));
       }
     };
 
@@ -77,6 +90,10 @@ export const ExpenseProvider = ({ children }) => {
   useEffect(() => {
     localStorage.setItem('monthlyBudget', JSON.stringify(budget));
   }, [budget]);
+
+  useEffect(() => {
+    localStorage.setItem('currency', JSON.stringify(currency));
+  }, [currency]);
 
   useEffect(() => {
     localStorage.setItem('darkMode', JSON.stringify(darkMode));
@@ -128,6 +145,25 @@ export const ExpenseProvider = ({ children }) => {
   const handleSetDarkMode = (newDarkMode) => {
     setDarkMode(newDarkMode);
     updateDarkModeOnBackend(newDarkMode);
+  };
+
+  const updateCurrencyOnBackend = async (newCurrency) => {
+    try {
+      if (user) {
+        await fetch(`${API_BASE_URL}/settings?user_id=${user.id}`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json' },
+          body: JSON.stringify({ currency: newCurrency })
+        });
+      }
+    } catch (error) {
+      console.warn("Failed to sync currency with backend.", error);
+    }
+  };
+
+  const handleSetCurrency = (newCurrency) => {
+    setCurrency(newCurrency);
+    updateCurrencyOnBackend(newCurrency);
   };
 
   // CRUD Actions
@@ -246,6 +282,9 @@ export const ExpenseProvider = ({ children }) => {
     setBudget: handleSetBudget,
     darkMode,
     setDarkMode: handleSetDarkMode,
+    currency,
+    setCurrency: handleSetCurrency,
+    currencySymbol,
     addExpense,
     deleteExpense,
     updateExpense,

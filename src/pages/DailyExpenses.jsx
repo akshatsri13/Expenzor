@@ -15,7 +15,7 @@ import { format, addDays, subDays, isSameDay } from 'date-fns';
 import { useNavigate } from 'react-router-dom';
 
 const DailyExpenses = () => {
-  const { expenses, deleteExpense, categories } = useExpenses();
+  const { expenses, deleteExpense, categories, currencySymbol } = useExpenses();
   const { addToast } = useToast();
   const navigate = useNavigate();
   const [selectedDate, setSelectedDate] = useState(new Date());
@@ -101,7 +101,7 @@ const DailyExpenses = () => {
         <motion.div variants={itemVariants} className="grid grid-cols-1 md:grid-cols-3 gap-6">
           <div className="card md:col-span-1 bg-gradient-to-br from-primary-600 to-indigo-700 text-white border-none shadow-xl shadow-primary-500/20">
             <p className="text-sm font-medium opacity-80 uppercase tracking-wider mb-2">Total Spent Today</p>
-            <h3 className="text-4xl font-black mb-1">₹{dailyTotal.toFixed(2)}</h3>
+            <h3 className="text-4xl font-black mb-1">{currencySymbol}{dailyTotal.toFixed(2)}</h3>
             <p className="text-xs opacity-60 italic">{dailyExpenses.length} transactions recorded</p>
           </div>
           
@@ -156,7 +156,7 @@ const DailyExpenses = () => {
                     </div>
                     
                     <div className="flex items-center space-x-6">
-                      <p className="font-black text-slate-800 dark:text-slate-100">₹{exp.amount.toFixed(2)}</p>
+                      <p className="font-black text-slate-800 dark:text-slate-100">{currencySymbol}{exp.amount.toFixed(2)}</p>
                       <button 
                         onClick={() => setShowConfirm(exp.id)}
                         className="p-2 text-slate-300 hover:text-accent-500 hover:bg-accent-50 dark:hover:bg-accent-950/30 rounded-xl transition-all opacity-0 group-hover:opacity-100"

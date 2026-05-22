@@ -3,7 +3,7 @@ import { motion } from 'framer-motion';
 import { useExpenses } from '../context/ExpenseContext';
 
 const BudgetProgress = () => {
-  const { monthlyTotal, budget } = useExpenses();
+  const { monthlyTotal, budget, currencySymbol } = useExpenses();
   const percentage = Math.min((monthlyTotal / budget) * 100, 100);
   const isOverBudget = monthlyTotal > budget;
 
@@ -13,7 +13,7 @@ const BudgetProgress = () => {
         <div>
           <h3 className="text-slate-500 dark:text-slate-400 font-medium">Monthly Budget</h3>
           <p className="text-2xl font-bold text-slate-800 dark:text-slate-100">
-            ₹{monthlyTotal.toFixed(2)} <span className="text-sm font-normal text-slate-400">/ ₹{budget.toFixed(2)}</span>
+            {currencySymbol}{monthlyTotal.toFixed(2)} <span className="text-sm font-normal text-slate-400">/ {currencySymbol}{budget.toFixed(2)}</span>
           </p>
         </div>
         <div className={`px-3 py-1 rounded-full text-xs font-bold ${isOverBudget ? 'bg-accent-100 text-accent-700' : 'bg-primary-100 text-primary-700'}`}>
@@ -38,7 +38,7 @@ const BudgetProgress = () => {
       
       {!isOverBudget && (
         <p className="mt-3 text-sm text-slate-500 dark:text-slate-400">
-          Remaining: <span className="font-bold text-primary-600">₹{(budget - monthlyTotal).toFixed(2)}</span>
+          Remaining: <span className="font-bold text-primary-600">{currencySymbol}{(budget - monthlyTotal).toFixed(2)}</span>
         </p>
       )}
     </div>
