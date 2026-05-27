@@ -25,7 +25,7 @@ dist-ssr
 .venv/
 *.pyc
 __pycache__/
-
+.env
 
 backend/expenzor.db
 backend/expenzor.db
