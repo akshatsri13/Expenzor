@@ -14,7 +14,7 @@ export const useExpenses = () => {
 };
 
 export const ExpenseProvider = ({ children }) => {
-  const { user } = useAuth();
+  const { user, token, logout } = useAuth();
   const API_BASE_URL = 'http://localhost:8000/api';
 
   const [expenses, setExpenses] = useState([]);
@@ -38,10 +38,14 @@ export const ExpenseProvider = ({ children }) => {
   // Fetch initial data from FastAPI backend on mount
   useEffect(() => {
     const fetchInitialData = async () => {
-      if (!user) return;
+      if (!user || !token) return;
       try {
-        // Fetch expenses
-        const expensesRes = await fetch(`${API_BASE_URL}/expenses?user_id=${user.id}`);
+        const headers = { 'Authorization': `Bearer ${token}` };
+        const expensesRes = await fetch(`${API_BASE_URL}/expenses`, { headers });
+        if (expensesRes.status === 401) {
+          logout();
+          return;
+        }
         if (expensesRes.ok) {
           const expensesData = await expensesRes.json();
           setExpenses(expensesData);
@@ -50,7 +54,11 @@ export const ExpenseProvider = ({ children }) => {
         }
 
         // Fetch settings
-        const settingsRes = await fetch(`${API_BASE_URL}/settings?user_id=${user.id}`);
+        const settingsRes = await fetch(`${API_BASE_URL}/settings`, { headers });
+        if (settingsRes.status === 401) {
+          logout();
+          return;
+        }
         if (settingsRes.ok) {
           const settingsData = await settingsRes.json();
           setBudget(settingsData.budget);
@@ -78,7 +86,7 @@ export const ExpenseProvider = ({ children }) => {
     };
 
     fetchInitialData();
-  }, [user]);
+  }, [user, token]);
 
   // Sync state modifications with localStorage cache as fallback
   useEffect(() => {
@@ -112,11 +120,14 @@ export const ExpenseProvider = ({ children }) => {
   const updateBudgetOnBackend = async (newBudget) => {
     try {
       if (user) {
-        await fetch(`${API_BASE_URL}/settings?user_id=${user.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ budget: parseFloat(newBudget) })
-      });
+        const res = await fetch(`${API_BASE_URL}/settings`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ budget: parseFloat(newBudget) })
+        });
+        if (res.status === 401) {
+          logout();
+        }
       }
     } catch (error) {
       console.warn("Failed to sync budget with backend.", error);
@@ -131,11 +142,14 @@ export const ExpenseProvider = ({ children }) => {
   const updateDarkModeOnBackend = async (newDarkMode) => {
     try {
       if (user) {
-        await fetch(`${API_BASE_URL}/settings?user_id=${user.id}`, {
-        method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify({ dark_mode: newDarkMode })
-      });
+        const res = await fetch(`${API_BASE_URL}/settings`, {
+          method: 'PUT',
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
+          body: JSON.stringify({ dark_mode: newDarkMode })
+        });
+        if (res.status === 401) {
+          logout();
+        }
       }
     } catch (error) {
       console.warn("Failed to sync dark mode with backend.", error);
@@ -150,11 +164,14 @@ export const ExpenseProvider = ({ children }) => {
   const updateCurrencyOnBackend = async (newCurrency) => {
     try {
       if (user) {
-        await fetch(`${API_BASE_URL}/settings?user_id=${user.id}`, {
+        const res = await fetch(`${API_BASE_URL}/settings`, {
           method: 'PUT',
-          headers: { 'Content-Type': 'application/json' },
+          headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
           body: JSON.stringify({ currency: newCurrency })
         });
+        if (res.status === 401) {
+          logout();
+        }
       }
     } catch (error) {
       console.warn("Failed to sync currency with backend.", error);
@@ -178,11 +195,15 @@ export const ExpenseProvider = ({ children }) => {
 
     try {
       if (!user) throw new Error("No user logged in");
-      const res = await fetch(`${API_BASE_URL}/expenses?user_id=${user.id}`, {
+      const res = await fetch(`${API_BASE_URL}/expenses`, {
         method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(expensePayload)
       });
+      if (res.status === 401) {
+        logout();
+        return;
+      }
       if (res.ok) {
         const newExpense = await res.json();
         setExpenses(prev => [newExpense, ...prev]);
@@ -199,9 +220,14 @@ export const ExpenseProvider = ({ children }) => {
   const deleteExpense = async (id) => {
     try {
       if (!user) throw new Error("No user logged in");
-      const res = await fetch(`${API_BASE_URL}/expenses/${id}?user_id=${user.id}`, {
-        method: 'DELETE'
+      const res = await fetch(`${API_BASE_URL}/expenses/${id}`, {
+        method: 'DELETE',
+        headers: { 'Authorization': `Bearer ${token}` }
       });
+      if (res.status === 401) {
+        logout();
+        return;
+      }
       if (res.ok) {
         setExpenses(prev => prev.filter(exp => exp.id !== id));
       } else {
@@ -224,11 +250,15 @@ export const ExpenseProvider = ({ children }) => {
 
     try {
       if (!user) throw new Error("No user logged in");
-      const res = await fetch(`${API_BASE_URL}/expenses/${updatedExpense.id}?user_id=${user.id}`, {
+      const res = await fetch(`${API_BASE_URL}/expenses/${updatedExpense.id}`, {
         method: 'PUT',
-        headers: { 'Content-Type': 'application/json' },
+        headers: { 'Content-Type': 'application/json', 'Authorization': `Bearer ${token}` },
         body: JSON.stringify(expensePayload)
       });
+      if (res.status === 401) {
+        logout();
+        return;
+      }
       if (res.ok) {
         const savedExpense = await res.json();
         setExpenses(prev => prev.map(exp => 

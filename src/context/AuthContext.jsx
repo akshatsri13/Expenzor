@@ -15,6 +15,10 @@ export const AuthProvider = ({ children }) => {
     const saved = localStorage.getItem('user');
     return saved ? JSON.parse(saved) : null;
   });
+  
+  const [token, setToken] = useState(() => {
+    return localStorage.getItem('token') || null;
+  });
 
   const [usersDb, setUsersDb] = useState(() => {
     const saved = localStorage.getItem('usersDb');
@@ -33,6 +37,9 @@ export const AuthProvider = ({ children }) => {
     }
   }, [user]);
 
+  // NOTE: Token is written to localStorage synchronously inside login()
+  // so it is available immediately when ExpenseContext fires fetchInitialData().
+
   const signup = async (name, email, password) => {
     try {
       const res = await fetch('http://localhost:8000/api/auth/signup', {
@@ -47,7 +54,8 @@ export const AuthProvider = ({ children }) => {
       }
 
       const userData = await res.json();
-      setUser({ id: userData.id, name: userData.name, email: userData.email });
+      // Auto-login after signup to get the token
+      await login(email, password);
       return true;
     } catch (err) {
       console.warn("Backend signup failed, falling back to local DB.", err);
@@ -76,7 +84,12 @@ export const AuthProvider = ({ children }) => {
         throw new Error(errorData.detail || 'Invalid credentials');
       }
 
-      const userData = await res.json();
+      const responseData = await res.json();
+      const userData = responseData.user;
+      // Write token to localStorage synchronously BEFORE setUser() so that
+      // ExpenseContext's useEffect fires with the token already available.
+      localStorage.setItem('token', responseData.access_token);
+      setToken(responseData.access_token);
       setUser({ id: userData.id, name: userData.name, email: userData.email });
       return true;
     } catch (err) {
@@ -94,10 +107,13 @@ export const AuthProvider = ({ children }) => {
 
   const logout = () => {
     setUser(null);
+    setToken(null);
+    localStorage.removeItem('token');
+    localStorage.removeItem('user');
   };
 
   return (
-    <AuthContext.Provider value={{ user, signup, login, logout }}>
+    <AuthContext.Provider value={{ user, token, signup, login, logout }}>
       {children}
     </AuthContext.Provider>
   );

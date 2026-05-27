@@ -35,7 +35,7 @@ const SectionCard = ({ icon, iconBg, title, children, delay = 0 }) => (
 
 const SettingsPage = () => {
   const { budget, setBudget, expenses, darkMode, setDarkMode, monthlyTotal, currency, setCurrency } = useExpenses();
-  const { user, logout } = useAuth();
+  const { user, logout, token } = useAuth();
 
   const [tempBudget, setTempBudget] = useState(budget);
   const [saveStatus, setSaveStatus] = useState('idle');
@@ -66,7 +66,15 @@ const SettingsPage = () => {
 
   const handleReset = () => {
     if (user) {
-      fetch(`http://localhost:8000/api/expenses/reset?user_id=${user.id}`, { method: 'POST' })
+      fetch(`http://localhost:8000/api/expenses/reset`, { 
+        method: 'POST',
+        headers: { 'Authorization': `Bearer ${token}` }
+      })
+        .then(res => {
+          if (res.status === 401) {
+            logout();
+          }
+        })
         .catch(err => console.warn('Could not reset backend data:', err));
     }
     localStorage.clear();
